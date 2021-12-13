@@ -19,8 +19,7 @@ HOST = "https://smoothie.ru"
 #### Формируем запрос к странице
 def get_html(url, params=None):
     r = requests.get(url, headers=HEADERS, params=params)
-    soup = BeautifulSoup(r.text, 'lxml')
-    return soup
+    return r
 
 #### Функция парсинга данных
 def get_content():
@@ -45,8 +44,9 @@ def get_content():
         )
     list_items_smoothie = []
     # Формируем запрос к странице
-    for page in range(2, 33):
-        soup = get_html(URL + f'?show_all=1&sort=3&pg={page}')
+    for page in range(2, 3):
+        r = get_html(URL + f'?show_all=1&sort=3&pg={page}')
+        soup = BeautifulSoup(r.text, 'lxml')
         list_items = soup.find_all('div', class_="white_bl_str white_bl_str2 b10")
         for item in list_items:
             try:
